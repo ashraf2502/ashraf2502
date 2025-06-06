@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أشرف بشير</title>
+  <meta name="description" content="تعرف على أشرف بشير، رحلته مع البرمجة والإبداع والتعليم. صفحة شخصية مميزة!" />
+  <link rel="icon" href="icon.png" type="image/png" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', Arial, sans-serif;
+      direction: rtl;
+      background: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);
+      background-image: url("background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .navbar {
+      background-color: rgba(44, 62, 80, 0.85);
+      padding: 10px 0;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    .menu > li {
+      position: relative;
+    }
+
+    .menu a {
+      color: #ecf0f1;
+      text-decoration: none;
+      padding: 8px 15px;
+      display: inline-block;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+      font-size: 16px;
+      user-select: none;
+    }
+
+    .menu a:hover {
+      background-color: #2980b9;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #34495e;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      border-radius: 6px;
+      top: 100%;
+      right: 0;
+      z-index: 10;
+      text-align: right;
+    }
+
+    .dropdown-content li {
+      position: relative;
+    }
+
+    .dropdown-content li a {
+      color: #ecf0f1;
+      padding: 10px 15px;
+      display: block;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .dropdown-content li a:hover {
+      background-color: #2980b9;
+    }
+
+    .dropdown:hover > .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-left .video-popup,
+    .dropdown-left .audio-popup {
+      left: auto;
+      right: 100%;
+      top: 0;
+    }
+
+    .video-popup,
+    .audio-popup {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      background-color: #2c3e50;
+      border-radius: 6px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      min-width: 280px;
+      padding: 10px;
+      z-index: 20;
+      text-align: right;
+    }
+
+    .dropdown-content li.video-trigger:hover > .video-popup,
+    .dropdown-content li.audio-trigger:hover > .audio-popup {
+      display: block;
+    }
+
+    .video-popup a,
+    .audio-popup a {
+      display: block;
+      padding: 8px 12px;
+      color: #ecf0f1;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .video-popup a:hover,
+    .audio-popup a:hover {
+      background-color: #2980b9;
+    }
+
+    .audio-popup a img {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        object-fit: cover;
+    }
+
+    .image-wrapper {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .lion-wrapper {
+      right: 150px;
+    }
+
+    .eagle-wrapper {
+      left: 150px;
+    }
+
+    .lion-image,
+    .eagle-image {
+      width: 350px;
+      height: auto;
+      opacity: 0.8;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .lion-image:hover,
+    .eagle-image:hover {
+      transform: scale(1.08);
+      opacity: 1;
+    }
+
+    .image-caption {
+      margin-top: 10px;
+      color: #2c3e50;
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+      background-color: rgba(255, 255, 255, 0.6);
+      padding: 5px 10px;
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+
+    #strength-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 6;
+      color: #2c3e50;
+      font-size: 38px;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      white-space: nowrap;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .welcome-message {
+      color: #2c3e50;
+      font-size: 42px;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px #aaa;
+      margin-top: 50px;
+      margin-bottom: 50px;
+      z-index: 1;
+    }
+
+    h2 {
+      color: #2c3e50;
+      text-shadow: 1px 1px 3px #aaa;
+    }
+
+    p {
+      color: #34495e;
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 15px 20px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px 0;
+      font-size: 16px;
+      color: #2c3e50;
+      font-weight: bolder;
+      width: 100%;
+      box-sizing: border-box;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .menu {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .dropdown-content {
+        position: static;
+        box-shadow: none;
+        background-color: transparent;
+        display: none !important;
+      }
+
+      .dropdown:hover > .dropdown-content {
+        display: block !important;
+      }
+
+      .video-popup,
+      .audio-popup {
+        display: none !important;
+        position: static !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        padding: 0 !important;
+        min-width: auto !important;
+      }
+
+      .image-wrapper,
+      #strength-message {
+        display: none;
+      }
+      .welcome-message {
+        margin-top: 20px;
+        font-size: 30px;
+        margin-bottom: 20px;
+      }
+    }
+
+    /* Modal (Popup) Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      animation: fadeInOverlay 0.3s ease-out;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      position: relative;
+      text-align: center;
+      animation: zoomIn 0.3s ease-out;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      height: auto;
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 20px auto;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .modal-content audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .close-button {
+      color: #aaa;
+      float: left;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Animations for modal */
+    @keyframes fadeInOverlay {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+        from { transform: scale(0.9); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <ul class="menu">
+      <li><a href="#">الرئيسية</a></li>
+      <li class="dropdown dropdown-left">
+        <a href="#" class="dropbtn">الوسائط ▼</a>
+        <ul class="dropdown-content">
+          <li class="video-trigger">
+            <a href="#">📹 فيديوهات ترفيهية</a>
+            <div class="video-popup">
+              <a href="video7.mp4" target="_blank">🎬 الفيديو السابع</a>
+              <a href="video8.mp4" target="_blank">🎬 الفيديو الثامن</a>
+              <a href="video9.mp4" target="_blank">🎬 الفيديو التاسع</a>
+              <a href="video10.mp4" target="_blank">🎬 الفيديو العاشر</a>
+              <a href="video11.mp4" target="_blank">🎬 الفيديو الحادي عشر</a>
+              <a href="video12.mp4" target="_blank">🎬 الفيديو الثاني عشر</a>
+              <a href="video13.mp4" target="_blank">🎬 الفيديو الثالث عشر</a>
+            </div>
+          </li>
+          <li><a href="#">🖼️ معرض الصور</a></li>
+          <li class="audio-trigger">
+            <a href="#">🔊 ملفات صوتية</a>
+            <div class="audio-popup">
+              <a href="#" onclick="openAudioModal('image1.jpg', 'audio1.mp3', 'المقطع الصوتي الأول')">
+                <img src="image1_thumbnail.jpg" alt="صورة مصغرة 1"> المقطع الصوتي الأول
+              </a>
+              <a href="#" onclick="openAudioModal('image2.jpg', 'audio2.mp3', 'المقطع الصوتي الثاني')">
+                <img src="image2_thumbnail.jpg" alt="صورة مصغرة 2"> المقطع الصوتي الثاني
+              </a>
+              <a href="#" onclick="openAudioModal('image3.jpg', 'audio3.mp3', 'المقطع الصوتي الثالث')">
+                <img src="image3_thumbnail.jpg" alt="صورة مصغرة 3"> المقطع الصوتي الثالث
+              </a>
+              <a href="#" onclick="openAudioModal('image4.jpg', 'audio4.mp3', 'المقطع الصوتي الرابع')">
+                <img src="image4_thumbnail.jpg" alt="صورة مصغرة 4"> المقطع الصوتي الرابع
+              </a>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown dropdown-left">
+        <a href="#" class="dropbtn">النجاح والتطوير ▼</a>
+        <ul class="dropdown-content">
+          <li class="video-trigger">
+            <a href="#">📹 فيديوهات تحفيزية</a>
+            <div class="video-popup">
+              <a href="video1.mp4" target="_blank">🎬 الفيديو الأول</a>
+              <a href="video2.mp4" target="_blank">🎬 الفيديو الثاني</a>
+              <a href="video3.mp4" target="_blank">🎬 الفيديو الثالث</a>
+              <a href="video4.mp4" target="_blank">🎬 الفيديو الرابع</a>
+              <a href="video5.mp4" target="_blank">🎬 الفيديو الخامس</a>
+              <a href="video6.mp4" target="_blank">🎬 الفيديو السادس</a>
+            </div>
+          </li>
+          <li><a href="#">🌟 قصص نجاح</a></li>
+          <li><a href="#">📚 كتب مقترحة</a></li>
+          <li><a href="#">💡 نصائح عملية</a></li>
+          <li><a href="#">🧠 تطوير المهارات</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropbtn">المقالات ▼</a>
+        <ul class="dropdown-content">
+          <li><a href="#">🖋️ مقالات تقنية</a></li>
+          <li><a href="#">🌸 مقالات عن الحياة</a></li>
+          <li><a href="#">📖 تجارب شخصية</a></li>
+          <li><a href="#">📚 مراجعات كتب</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropbtn">البرمجة ▼</a>
+        <ul class="dropdown-content">
+          <li><a href="#">🌐 HTML</a></li>
+          <li><a href="#">🎨 CSS</a></li>
+          <li><a href="#">📜 JavaScript</a></li>
+          <li><a href="#">🚀 مشاريع</a></li>
+          <li><a href="#">🎓 دروس تعليمية</a></li>
+          <li><a href="#">📚 مكتبات وأُطر عمل</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropbtn">الدعم والمساعدة ▼</a>
+        <ul class="dropdown-content">
+          <li><a href="#">❓ الأسئلة الشائعة</a></li>
+          <li><a href="#">🛠️ دعم فني</a></li>
+          <li><a href="#">💬 منتدى النقاش</a></li>
+        </ul>
+      </li>
+      <li><a href="#">اتصل بنا</a></li>
+    </ul>
+  </nav>
+
+  <h1 class="welcome-message">مرحبًا بكم في صفحتي الشخصية</h1>
+
+  <div class="image-wrapper lion-wrapper">
+    <img id="lionImage" src="صوره اسد.jpeg" alt="صورة أسد" class="lion-image">
+    <p class="image-caption">اضغط على الصورة</p>
+  </div>
+
+  <h2 id="strength-message">كن قوياً دائماً</h2>
+
+  <div class="image-wrapper eagle-wrapper">
+    <img id="eagleImage" src="صوره نسر.jpeg" alt="صورة نسر" class="eagle-image">
+    <p class="image-caption">اضغط على الصورة</p>
+  </div>
+
+  <audio id="lionSound" src="صوت_اسد.mp3" preload="auto"></audio>
+  <audio id="eagleSound" src="صوت_نسر.mp3" preload="auto"></audio>
+
+  <div id="audioImageModal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeAudioModal()">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <img id="modalImage" src="" alt="صورة المقطع الصوتي">
+      <audio id="modalAudioPlayer" controls autoplay></audio>
+    </div>
+  </div>
+
+  <footer><p>جميع الحقوق محفوظة © 2025 أشرف بشير</p></footer>
+
+  <script>
+    const audioModal = document.getElementById('audioImageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalAudioPlayer = document.getElementById('modalAudioPlayer');
+    const modalTitle = document.getElementById('modalTitle');
+
+    const lionImage = document.getElementById('lionImage');
+    const eagleImage = document.getElementById('eagleImage');
+    const lionSound = document.getElementById('lionSound');
+    const eagleSound = document.getElementById('eagleSound');
+
+    async function playSpecificSound(audioElement) {
+        try {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+            await audioElement.play();
+            console.log("تم تشغيل الصوت بنجاح.");
+        } catch (error) {
+            console.error("خطأ في تشغيل الصوت:", error);
+        }
+    }
+
+    if (lionImage) {
+        lionImage.addEventListener('click', () => playSpecificSound(lionSound));
+    }
+
+    if (eagleImage) {
+        eagleImage.addEventListener('click', () => playSpecificSound(eagleSound));
+    }
+
+    function openAudioModal(imageSrc, audioSrc, title) {
+        modalAudioPlayer.pause();
+        modalAudioPlayer.currentTime = 0;
+
+        modalImage.src = imageSrc;
+        modalAudioPlayer.src = audioSrc;
+        modalTitle.textContent = title;
+        audioModal.style.display = 'flex';
+
+        modalAudioPlayer.load();
+        modalAudioPlayer.play();
+
+        modalAudioPlayer.onended = () => {
+            closeAudioModal();
+        };
+    }
+
+    function closeAudioModal() {
+        modalAudioPlayer.pause();
+        modalAudioPlayer.currentTime = 0;
+        audioModal.style.display = 'none';
+    }
+
+    audioModal.addEventListener('click', (event) => {
+        if (event.target === audioModal) {
+            closeAudioModal();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && audioModal.style.display === 'flex') {
+            closeAudioModal();
+        }
+    });
+  </script>
+
+</body>
+</html>
