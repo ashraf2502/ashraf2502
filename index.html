@@ -17,13 +17,11 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      height: 100vh;
       text-align: center;
       animation: fadeIn 2s ease-in-out;
       position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      overflow-x: hidden; /* لمنع ظهور شريط تمرير أفقي بسبب الحركة */
+      overflow-y: auto; /* لضمان ظهور شريط التمرير الرأسي إذا كان المحتوى أطول من الشاشة */
     }
     .navbar {
       background-color: rgba(44, 62, 80, 0.85);
@@ -34,7 +32,6 @@
       top: 0;
       z-index: 100;
     }
-
     .menu {
       list-style: none;
       margin: 0;
@@ -43,11 +40,9 @@
       justify-content: center;
       gap: 25px;
     }
-
     .menu > li {
       position: relative;
     }
-
     .menu a {
       color: #ecf0f1;
       text-decoration: none;
@@ -58,11 +53,9 @@
       font-size: 16px;
       user-select: none;
     }
-
     .menu a:hover {
       background-color: #2980b9;
     }
-
     .dropdown-content {
       display: none;
       position: absolute;
@@ -75,11 +68,9 @@
       z-index: 10;
       text-align: right;
     }
-
     .dropdown-content li {
       position: relative;
     }
-
     .dropdown-content li a {
       color: #ecf0f1;
       padding: 10px 15px;
@@ -87,22 +78,18 @@
       text-align: right;
       white-space: nowrap;
     }
-
     .dropdown-content li a:hover {
       background-color: #2980b9;
     }
-
     .dropdown:hover > .dropdown-content {
       display: block;
     }
-
     .dropdown-left .video-popup,
     .dropdown-left .audio-popup {
       left: auto;
       right: 100%;
       top: 0;
     }
-
     .video-popup,
     .audio-popup {
       display: none;
@@ -117,12 +104,10 @@
       z-index: 20;
       text-align: right;
     }
-
     .dropdown-content li.video-trigger:hover > .video-popup,
     .dropdown-content li.audio-trigger:hover > .audio-popup {
       display: block;
     }
-
     .video-popup a,
     .audio-popup a {
       display: block;
@@ -135,35 +120,58 @@
       align-items: center;
       gap: 10px;
     }
-
     .video-popup a:hover,
     .audio-popup a:hover {
       background-color: #2980b9;
     }
-
     .audio-popup a img {
         width: 40px;
         height: 40px;
         border-radius: 5px;
         object-fit: cover;
     }
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+        min-height: calc(100vh - 150px);
+    }
+
+    .content-area {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 1200px;
+        min-height: 400px; /* لضمان وجود مساحة للحركة */
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+    }
 
     .image-wrapper {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       z-index: 5;
+      position: relative; /* مهم لتمكين الحركة بواسطة animation */
+    }
+
+    /* تحديد موقع الأغطية الأصلية لضمان عدم تداخلها */
+    .eagle-wrapper {
+      position: absolute;
+      right: calc(50% + 200px); /* يوضع النسر في أقصى اليمين من البداية (من وجهة نظر RTL) */
+      top: 0;
+      animation: eagleMove 20s ease-in-out infinite alternate; /* تم التعديل إلى 20s */
     }
 
     .lion-wrapper {
-      right: 150px;
-    }
-
-    .eagle-wrapper {
-      left: 150px;
+      position: absolute;
+      left: calc(50% + 200px); /* يوضع الأسد في أقصى اليسار من البداية (من وجهة نظر RTL) */
+      top: 0;
+      animation: lionMove 20s ease-in-out infinite alternate; /* تم التعديل إلى 20s */
     }
 
     .lion-image,
@@ -171,18 +179,17 @@
       width: 350px;
       height: auto;
       opacity: 0.8;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      /* تم إزالة border-radius و box-shadow لإزالة البرواز */
+      /* border-radius: 10px; */
+      /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); */
       transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
       cursor: pointer;
     }
-
     .lion-image:hover,
     .eagle-image:hover {
       transform: scale(1.08);
       opacity: 1;
     }
-
     .image-caption {
       margin-top: 10px;
       color: #2c3e50;
@@ -194,12 +201,7 @@
       border-radius: 5px;
       white-space: nowrap;
     }
-
     #strength-message {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       z-index: 6;
       color: #2c3e50;
       font-size: 38px;
@@ -210,8 +212,13 @@
       background-color: rgba(255, 255, 255, 0.7);
       border-radius: 15px;
       animation: fadeIn 1.5s ease-out;
+      /* لترتيب الرسالة في المنتصف مع الصور المطلقة */
+      position: absolute;
+      top: 50%; /* أو قيمة محددة حسب تفضيلك */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
     }
-
     .welcome-message {
       color: #2c3e50;
       font-size: 42px;
@@ -221,24 +228,20 @@
       margin-bottom: 50px;
       z-index: 1;
     }
-
     h2 {
       color: #2c3e50;
       text-shadow: 1px 1px 3px #aaa;
     }
-
     p {
       color: #34495e;
       font-size: 18px;
       line-height: 1.6;
       margin: 15px 20px;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     footer {
       margin-top: auto;
       padding: 20px 0;
@@ -250,23 +253,51 @@
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
 
+    /* تعريف حركة النسر (من اليمين لليسار ثم العودة) */
+    @keyframes eagleMove {
+      0% { right: calc(50% + 200px); } /* بداية من أقصى اليمين (من وجهة نظر RTL) */
+      100% { right: calc(50% - 200px - 350px); } /* تتحرك لليسار بمسافة (50% - 200px - عرض الصورة) */
+    }
+
+    /* تعريف حركة الأسد (من اليسار لليمين ثم العودة) */
+    @keyframes lionMove {
+      0% { left: calc(50% + 200px); } /* بداية من أقصى اليسار (من وجهة نظر RTL) */
+      100% { left: calc(50% - 200px - 350px); } /* تتحرك لليمين بمسافة (50% - 200px - عرض الصورة) */
+    }
+
+    @media (max-width: 1024px) {
+        /* تقليل مدى الحركة في الشاشات الأصغر */
+        @keyframes eagleMove {
+            0% { right: calc(50% + 150px); }
+            100% { right: calc(50% - 150px - 350px); }
+        }
+        @keyframes lionMove {
+            0% { left: calc(50% + 150px); }
+            100% { left: calc(50% - 150px - 350px); }
+        }
+        /* لا تنسى تعديل هذا الجزء أيضاً إذا كنت تريد تبطيء الحركة في هذه الشاشات */
+        .eagle-wrapper {
+            animation: eagleMove 20s ease-in-out infinite alternate; /* تم التعديل إلى 20s */
+        }
+        .lion-wrapper {
+            animation: lionMove 20s ease-in-out infinite alternate; /* تم التعديل إلى 20s */
+        }
+    }
+
     @media (max-width: 768px) {
       .menu {
         flex-direction: column;
         gap: 10px;
       }
-
       .dropdown-content {
         position: static;
         box-shadow: none;
         background-color: transparent;
         display: none !important;
       }
-
       .dropdown:hover > .dropdown-content {
         display: block !important;
       }
-
       .video-popup,
       .audio-popup {
         display: none !important;
@@ -276,10 +307,24 @@
         padding: 0 !important;
         min-width: auto !important;
       }
-
-      .image-wrapper,
+      .content-area {
+        flex-direction: column;
+        padding: 10px;
+        min-height: auto;
+        /* عند الشاشات الصغيرة، سنجعل الصور ثابتة مؤقتًا أو بحركة بسيطة */
+        position: static; /* إزالة absolute لتجنب تداخل العناصر */
+        display: flex; /* إعادة Flexbox لترتيب العناصر عمودياً */
+        flex-direction: column;
+      }
+      .image-wrapper {
+          position: static; /* إلغاء التموضع المطلق في الشاشات الصغيرة */
+          margin: 20px 0; /* إعادة الهامش لتباعد العناصر */
+          animation: none; /* إيقاف الحركة التلقائية */
+      }
       #strength-message {
-        display: none;
+        position: static; /* إلغاء التموضع المطلق */
+        transform: none; /* إلغاء الترجمة */
+        margin: 20px 0; /* إضافة هامش */
       }
       .welcome-message {
         margin-top: 20px;
@@ -287,7 +332,6 @@
         margin-bottom: 20px;
       }
     }
-
     /* Modal (Popup) Styles */
     .modal-overlay {
       display: none;
@@ -303,7 +347,6 @@
       align-items: center;
       animation: fadeInOverlay 0.3s ease-out;
     }
-
     .modal-content {
       background-color: #fefefe;
       padding: 20px;
@@ -316,7 +359,6 @@
       text-align: center;
       animation: zoomIn 0.3s ease-out;
     }
-
     .modal-content img {
       max-width: 100%;
       height: auto;
@@ -328,12 +370,10 @@
       border-radius: 8px;
       border: 1px solid #ccc;
     }
-
     .modal-content audio {
       width: 100%;
       margin-top: 10px;
     }
-
     .close-button {
       color: #aaa;
       float: left;
@@ -342,20 +382,17 @@
       cursor: pointer;
       margin-left: 10px;
     }
-
     .close-button:hover,
     .close-button:focus {
       color: #000;
       text-decoration: none;
       cursor: pointer;
     }
-
     /* Animations for modal */
     @keyframes fadeInOverlay {
         from { opacity: 0; }
         to { opacity: 1; }
     }
-
     @keyframes zoomIn {
         from { transform: scale(0.9); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
@@ -363,7 +400,6 @@
   </style>
 </head>
 <body>
-
   <nav class="navbar">
     <ul class="menu">
       <li><a href="#">الرئيسية</a></li>
@@ -454,19 +490,22 @@
     </ul>
   </nav>
 
-  <h1 class="welcome-message">مرحبًا بكم في صفحتي الشخصية</h1>
+  <div class="content-wrapper">
+    <h1 class="welcome-message">مرحبًا بكم في صفحتي الشخصية</h1>
 
-  <div class="image-wrapper lion-wrapper">
-    <img id="lionImage" src="صوره اسد.jpeg" alt="صورة أسد" class="lion-image">
-    <p class="image-caption">اضغط على الصورة</p>
-  </div>
+    <div class="content-area">
+      <div class="image-wrapper eagle-wrapper">
+        <img id="eagleImage" src="صوره نسر.jpeg" alt="صورة نسر" class="eagle-image">
+        <p class="image-caption">اضغط على الصورة</p>
+      </div>
+      <h2 id="strength-message">كن قوياً دائماً</h2>
+      <div class="image-wrapper lion-wrapper">
+        <img id="lionImage" src="صوره اسد.jpeg" alt="صورة أسد" class="lion-image">
+        <p class="image-caption">اضغط على الصورة</p>
+      </div>
+    </div>
 
-  <h2 id="strength-message">كن قوياً دائماً</h2>
-
-  <div class="image-wrapper eagle-wrapper">
-    <img id="eagleImage" src="صوره نسر.jpeg" alt="صورة نسر" class="eagle-image">
-    <p class="image-caption">اضغط على الصورة</p>
-  </div>
+    </div>
 
   <audio id="lionSound" src="صوت_اسد.mp3" preload="auto"></audio>
   <audio id="eagleSound" src="صوت_نسر.mp3" preload="auto"></audio>
@@ -547,7 +586,6 @@
         }
     });
   </script>
-
 </body>
 </html>
 
